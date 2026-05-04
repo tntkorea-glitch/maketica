@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import RoleSwitch from "@/components/RoleSwitch";
+import SignOutButton from "@/components/SignOutButton";
 
 const navItems = [
   { href: "/publisher", label: "대시보드", icon: "📊" },
@@ -36,8 +37,9 @@ export default async function PublisherLayout({ children }: { children: React.Re
             </Link>
           ))}
         </nav>
-        <div className="px-4 py-3 border-t border-gray-100">
-          <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
+        <div className="px-4 py-2 border-t border-gray-100">
+          <p className="text-xs text-gray-400 truncate mb-1">{session.user?.email}</p>
+          <SignOutButton />
         </div>
         {role === "ADMIN" && <RoleSwitch />}
       </aside>
