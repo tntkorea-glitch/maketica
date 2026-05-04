@@ -1,6 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = "maketica <noreply@maketica.co.kr>";
 
 export async function sendPasswordResetEmail(to: string, resetUrl: string) {
@@ -8,6 +7,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     console.log(`\n[DEV] 비밀번호 재설정 링크:\n${resetUrl}\n`);
     return;
   }
+  const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
     from: FROM,
     to,
