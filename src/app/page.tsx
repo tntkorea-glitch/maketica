@@ -232,9 +232,8 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <span className="font-bold text-gray-600">maketica</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-gray-600 transition-colors">이용약관</a>
-            <a href="#" className="hover:text-gray-600 transition-colors">개인정보처리방침</a>
-            <a href="#" className="hover:text-gray-600 transition-colors">광고 표시 가이드</a>
+            <Link href="/terms" className="hover:text-gray-600 transition-colors">이용약관</Link>
+            <Link href="/privacy" className="hover:text-gray-600 transition-colors">개인정보처리방침</Link>
           </div>
           <span>© 2026 maketica. All rights reserved.</span>
         </div>
