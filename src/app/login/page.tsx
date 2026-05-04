@@ -63,6 +63,9 @@ export default function LoginPage() {
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>
+          <p className="text-right">
+            <a href="/forgot-password" className="text-xs text-gray-400 hover:text-blue-600">비밀번호를 잊으셨나요?</a>
+          </p>
         </form>
 
         {/* 구분선 */}
@@ -76,7 +79,7 @@ export default function LoginPage() {
         <div className="space-y-3">
           {/* 구글 */}
           <button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             className="w-full flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-medium text-gray-700 transition-colors"
           >
             <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
@@ -90,7 +93,7 @@ export default function LoginPage() {
 
           {/* 카카오 */}
           <button
-            onClick={() => alert("카카오 로그인은 준비 중입니다")}
+            onClick={() => signIn("kakao", { callbackUrl: "/dashboard" })}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[#191919] transition-colors"
             style={{ backgroundColor: "#FEE500" }}
           >
@@ -100,15 +103,6 @@ export default function LoginPage() {
             카카오로 로그인
           </button>
 
-          {/* 네이버 */}
-          <button
-            onClick={() => alert("네이버 로그인은 준비 중입니다")}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-white transition-colors"
-            style={{ backgroundColor: "#03C75A" }}
-          >
-            <span className="w-5 h-5 shrink-0 flex items-center justify-center font-bold text-base leading-none">N</span>
-            네이버로 로그인
-          </button>
         </div>
 
         {/* 회원가입 링크 */}

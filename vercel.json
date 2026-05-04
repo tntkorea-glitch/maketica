@@ -5,5 +5,11 @@
     }
   },
   "buildCommand": "next build",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "crons": [
+    {
+      "path": "/api/cron/settle",
+      "schedule": "0 9 * * 5"
+    }
+  ]
 }

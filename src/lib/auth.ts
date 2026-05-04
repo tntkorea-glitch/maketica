@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import Kakao from "next-auth/providers/kakao";
+import Naver from "next-auth/providers/naver";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
+
+const adminEmails = (process.env.AUTH_ADMIN_EMAILS ?? "").split(",").map((e) => e.trim()).filter(Boolean);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -14,6 +18,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
+    ...(process.env.AUTH_KAKAO_ID ? [Kakao({
+      clientId: process.env.AUTH_KAKAO_ID,
+      clientSecret: process.env.AUTH_KAKAO_SECRET ?? "",
+    })] : []),
+    ...(process.env.AUTH_NAVER_ID ? [Naver({
+      clientId: process.env.AUTH_NAVER_ID,
+      clientSecret: process.env.AUTH_NAVER_SECRET ?? "",
+    })] : []),
     Credentials({
       name: "credentials",
       credentials: {
@@ -32,42 +44,48 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async signIn({ user, account }) {
-      // 구글 첫 로그인 시 자동 회원가입
-      if (account?.provider === "google" && user.email) {
-        const existing = await prisma.user.findUnique({
+  events: {
+    // 소셜 로그인으로 신규 가입 시 관리자 이메일이면 ADMIN으로 승격
+    async createUser({ user }) {
+      if (user.email && adminEmails.includes(user.email)) {
+        await prisma.user.update({
           where: { email: user.email },
+          data: { role: "ADMIN" },
         });
-        if (!existing) {
-          await prisma.user.create({
-            data: {
-              email: user.email,
-              name: user.name ?? "",
-              image: user.image ?? null,
-              role: "PUBLISHER",
-            },
-          });
-        }
       }
-      return true;
     },
-    async jwt({ token, user }) {
+  },
+  callbacks: {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
-        const dbUser = await prisma.user.findUnique({
-          where: { email: user.email! },
-          select: { role: true },
-        });
-        token.role = dbUser?.role;
+      }
+      // 로그인 직후 또는 세션 갱신 시 DB에서 최신 role 조회
+      if (user || trigger === "update") {
+        const email = token.email ?? user?.email;
+        if (email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email },
+            select: { id: true, role: true },
+          });
+          if (dbUser) {
+            token.id = dbUser.id;
+            // 관리자 이메일이면 항상 ADMIN 보장
+            if (adminEmails.includes(email) && dbUser.role !== "ADMIN") {
+              await prisma.user.update({ where: { email }, data: { role: "ADMIN" } });
+              token.role = "ADMIN";
+            } else {
+              token.role = dbUser.role;
+            }
+          }
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = token.id as string;
-        (session.user as typeof session.user & { role: string }).role =
-          token.role as string;
+        (session.user as typeof session.user & { role: string }).role = token.role as string;
       }
       return session;
     },

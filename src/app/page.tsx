@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const stats = [
   { value: "12,000+", label: "활동 마케터" },
@@ -57,7 +59,10 @@ const features = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  if (session) redirect("/dashboard");
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* 헤더 */}
