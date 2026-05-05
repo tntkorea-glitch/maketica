@@ -2,9 +2,9 @@
 name: maketica 프로젝트 진행 상태
 description: 현재 진행률, 완료 작업, 남은 작업 목록
 type: project
-originSessionId: 9141f866-baca-45cc-95db-6ec105fad0f9
+originSessionId: 3c6e204d-775c-4f9b-9cf9-9f62c6fa9762
 ---
-## 진행률: 100% (MVP 완성 + 프로덕션 배포)
+## 진행률: 40% (랜딩 리디자인 + 이미지 업로드 완료)
 
 ## 완료된 작업
 
@@ -18,12 +18,15 @@ originSessionId: 9141f866-baca-45cc-95db-6ec105fad0f9
 - **관리자 대시보드** — 전환/캠페인/출금/충전/사용자 관리
 - **정산 배치 Cron** — 매주 금요일 09:00 UTC
 - **소셜 로그인** — Google (카카오/네이버 env-gated)
-- **비밀번호 재설정** — Resend 연동 준비 완료 (RESEND_API_KEY 등록 시 즉시 동작)
-- **개인정보처리방침** — /privacy
-- **이용약관** — /terms
-- **SEO 메타태그** — OG, Twitter Card, robots, keywords
-- **로그아웃 버튼** — 각 사이드바 하단
-- **관리자 뷰 전환** — admin/publisher/advertiser 자유 전환
+- **비밀번호 재설정** — Resend 연동 준비 완료
+- **개인정보처리방침/이용약관** — /privacy, /terms
+- **SEO 메타태그** — OG, Twitter Card, robots
+- **로그아웃 → 랜딩페이지(/) 리다이렉트** 수정
+- **랜딩페이지 전면 리디자인** — 인디고+다크 테마, 리플알바 영감 독자 스타일
+- **배너 캐러셀 (BannerCarousel)** — 5초 자동 롤링, 도트/화살표 컨트롤
+- **이미지 업로드 (Vercel Blob)** — 캠페인 등록·수정 폼, 드래그앤드롭+미리보기
+- **Vercel Blob 스토어 연결** — maketica-images, BLOB_READ_WRITE_TOKEN 환경변수 설정
+- **샘플 캠페인 9개** — Unsplash 이미지 포함 DB seed
 - **도메인** — maketica.co.kr 연결 완료
 - **프로덕션 배포** — Vercel + Neon DB
 
@@ -40,8 +43,11 @@ GET /api/conversions?code={trackingCode}&name=홍길동&phone=010-1234-5678
 ## 남은 작업
 - [ ] RESEND_API_KEY 등록 (Vercel 환경변수) → 비밀번호 재설정 이메일 발송 활성화
 - [ ] Resend에서 maketica.co.kr 발신 도메인 인증
-- [ ] /public/og-image.png 추가 (1200×630, SNS 공유 이미지)
+- [ ] /public/og-image.png 추가 (1200×630)
 - [ ] 카카오 로그인 앱키 등록 (선택)
+- [ ] 실제 광고주 캠페인 이미지 업로드 (현재 Unsplash 샘플)
+- [ ] 마케터 랜딩페이지 캠페인 탐색 페이지 UI 개선 (현재 basic)
+- [ ] 실제 운영을 위한 사업자 정보 푸터 업데이트
 
-**Why:** MVP 전체 완성, 프로덕션 도메인 연결까지 완료.
-**How to apply:** 다음 세션에서 Resend API 키 받아 환경변수 등록하면 이메일 기능 완성.
+**Why:** 랜딩 리디자인 + 이미지 업로드 기능 완성. 핵심 기능은 모두 동작.
+**How to apply:** 다음 세션에서 RESEND_API_KEY 등록 또는 마케터 캠페인 탐색 UI 개선 우선.

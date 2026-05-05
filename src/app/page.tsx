@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import BannerCarousel from "@/components/BannerCarousel";
 
 const categoryLabel: Record<string, string> = {
@@ -61,7 +60,6 @@ const categories = [
 
 export default async function Home() {
   const session = await auth();
-  if (session) redirect("/dashboard");
 
   const campaigns = await prisma.campaign.findMany({
     where: { status: "ACTIVE" },
@@ -91,12 +89,20 @@ export default async function Home() {
             <a href="#faq" className="hover:text-indigo-600 transition-colors">고객센터</a>
           </nav>
           <div className="flex items-center gap-2 ml-auto shrink-0">
-            <Link href="/login" className="text-sm px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors">
-              로그인
-            </Link>
-            <Link href="/register" className="text-sm px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
-              무료 시작 →
-            </Link>
+            {session ? (
+              <Link href="/dashboard" className="text-sm px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
+                대시보드 →
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors">
+                  로그인
+                </Link>
+                <Link href="/register" className="text-sm px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
+                  무료 시작 →
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
