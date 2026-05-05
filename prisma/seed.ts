@@ -171,7 +171,6 @@ async function main() {
       where: { id: c.id },
       update: { imageUrl: c.imageUrl, status: "ACTIVE" },
       create: {
-        id: c.id,
         advertiserId: advertiser.id,
         type: "CPA",
         status: "ACTIVE",
