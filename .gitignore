@@ -51,3 +51,4 @@ credentials*.json
 /src/generated/prisma
 
 .vercel
+.env*.local
