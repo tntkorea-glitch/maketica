@@ -198,12 +198,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
+      {hint && <p className="text-xs text-gray-400 mb-1.5">{hint}</p>}
       {children}
     </div>
   );
