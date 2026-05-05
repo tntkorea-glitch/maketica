@@ -41,6 +41,7 @@ export async function createCampaign(formData: FormData) {
       approvalRate: approvalRateRaw ? parseInt(approvalRateRaw, 10) : null,
       startDate: startDateRaw ? new Date(startDateRaw) : null,
       endDate: endDateRaw ? new Date(endDateRaw) : null,
+      imageUrl: (formData.get("imageUrl") as string) || null,
     },
   });
 
@@ -81,6 +82,7 @@ export async function updateCampaign(campaignId: string, formData: FormData) {
       approvalRate:    approvalRateRaw ? parseInt(approvalRateRaw, 10) : null,
       startDate:       startDateRaw ? new Date(startDateRaw) : null,
       endDate:         endDateRaw ? new Date(endDateRaw) : null,
+      imageUrl:        (formData.get("imageUrl") as string) || null,
     },
   });
 

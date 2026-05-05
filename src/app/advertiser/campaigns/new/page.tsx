@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { createCampaign } from "@/app/actions/campaigns";
+import ImageUploadField from "@/components/ImageUploadField";
 
 const categories = [
   { value: "LEGAL", label: "⚖️ 개인회생/법률 (5~15만원)" },
@@ -79,6 +80,13 @@ export default function NewCampaignPage() {
                 <option key={a} value={a}>{a}</option>
               ))}
             </select>
+          </Field>
+        </Section>
+
+        {/* 대표 이미지 */}
+        <Section title="대표 이미지">
+          <Field label="캠페인 대표 이미지" hint="랜딩페이지 캠페인 카드에 표시됩니다. 권장 크기 800×450 (16:9)">
+            <ImageUploadField />
           </Field>
         </Section>
 

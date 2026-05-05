@@ -2,6 +2,7 @@
 
 import { useActionState, useTransition } from "react";
 import { updateCampaign, setCampaignStatus } from "@/app/actions/campaigns";
+import ImageUploadField from "@/components/ImageUploadField";
 import type { Campaign } from "@prisma/client";
 
 const categories = [
@@ -64,6 +65,13 @@ export default function EditForm({ campaign }: { campaign: Campaign }) {
               </select>
             </Field>
           </div>
+        </Section>
+
+        {/* 대표 이미지 */}
+        <Section title="대표 이미지">
+          <Field label="캠페인 대표 이미지" hint="랜딩페이지 캠페인 카드에 표시됩니다. 권장 크기 800×450 (16:9)">
+            <ImageUploadField defaultUrl={campaign.imageUrl ?? undefined} />
+          </Field>
         </Section>
 
         {/* 캠페인 내용 */}
