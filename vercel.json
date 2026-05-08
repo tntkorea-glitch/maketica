@@ -1,15 +1,16 @@
-{
-  "git": {
-    "deploymentEnabled": {
-      "master": false
-    }
-  },
-  "buildCommand": "next build",
-  "installCommand": "npm install",
-  "crons": [
-    {
-      "path": "/api/cron/settle",
-      "schedule": "0 9 * * 5"
-    }
-  ]
+﻿{
+    "ignoreCommand":  "git log -1 --pretty=%s | grep -q \u0027auto-commit from Claude Code\u0027",
+    "buildCommand":  "next build",
+    "crons":  [
+                  {
+                      "path":  "/api/cron/settle",
+                      "schedule":  "0 9 * * 5"
+                  }
+              ],
+    "git":  {
+                "deploymentEnabled":  {
+                                          "master":  false
+                                      }
+            },
+    "installCommand":  "npm install"
 }
